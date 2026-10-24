@@ -1,3 +1,9 @@
+## [1.0.0-dev.21](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.20...v1.0.0-dev.21) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* keep the Library header filled across layout passes ([3768632](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/37686323f62b67647fd05e5411f0a71c307e1d86))
+
 ## [1.0.0-dev.20](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.19...v1.0.0-dev.20) (2026-10-24)
 
 ### 🐛 Bug Fixes
