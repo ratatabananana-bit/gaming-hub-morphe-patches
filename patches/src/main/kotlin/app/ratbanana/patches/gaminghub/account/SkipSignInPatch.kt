@@ -29,10 +29,10 @@ val skipSignInPatch = bytecodePatch(
             addInstructionsWithLabels(
                 0,
                 """
-                    invoke-static { p1 }, $EXTENSION_CLASS->shouldSkipOnboarding(Landroid/content/Context;)Z
-                    move-result v0
+                    const-class v0, $ONBOARDING_STATUS_CLASS
+                    invoke-static { p1, v0 }, $EXTENSION_CLASS->getSkippedOnboardingStatus(Landroid/content/Context;Ljava/lang/Class;)Ljava/lang/Object;
+                    move-result-object v0
                     if-eqz v0, :run_onboarding
-                    sget-object v0, $ONBOARDING_STATUS_CLASS->NEED_TO_GO_HOME:$ONBOARDING_STATUS_CLASS
                     return-object v0
                     :run_onboarding
                     nop

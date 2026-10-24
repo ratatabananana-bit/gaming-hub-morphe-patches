@@ -1,9 +1,10 @@
 package app.ratbanana.patches.gaminghub.account
 
 import app.morphe.patcher.Fingerprint
-import app.morphe.patcher.fieldAccess
+import app.morphe.patcher.string
 import com.android.tools.smali.dexlib2.AccessFlags
 
+/** Startup status enum. Its class name is kept, but its constant fields are obfuscated. */
 internal const val ONBOARDING_STATUS_CLASS = "Lcom/samsung/android/game/gamehome/app/oobe/Status;"
 
 /**
@@ -19,9 +20,6 @@ internal object GetOnboardingStatusFingerprint : Fingerprint(
     returnType = "Ljava/lang/Object;",
     parameters = listOf("Landroid/content/Context;", "Z", "L"),
     filters = listOf(
-        fieldAccess(
-            definingClass = ONBOARDING_STATUS_CLASS,
-            name = "NEED_SIGN_IN",
-        ),
+        string("graduateChild getOobeStatus userStatus == AccountUserStatus.GRADUATE_CHILD_ACCOUNT"),
     ),
 )
