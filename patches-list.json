@@ -1,5 +1,128 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.0.0",
-  "patches": []
+  "version": "1.0.0",
+  "patches": [
+    {
+      "name": "Hide Events button",
+      "description": "Removes the gift icon in the top right of the home screen that opens the Events page.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.samsung.android.game.gamehome",
+          "name": "Gaming Hub",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#4A2A8C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "8.0.05.8",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Hide Recommended for you",
+      "description": "Removes the \"Recommended for you\" row from the home screen.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.samsung.android.game.gamehome",
+          "name": "Gaming Hub",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#4A2A8C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "8.0.05.8",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "rowTitles",
+          "title": "Row titles",
+          "description": "Title of the row to hide, as shown in the app. Separate alternative titles (for example other languages) with '|'.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Recommended for you",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Hide Top instant plays",
+      "description": "Removes the \"Top instant plays\" row from the home screen.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.samsung.android.game.gamehome",
+          "name": "Gaming Hub",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#4A2A8C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "8.0.05.8",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": [
+        {
+          "key": "rowTitles",
+          "title": "Row titles",
+          "description": "Title of the row to hide, as shown in the app. Separate alternative titles (for example other languages) with '|'.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Top instant plays",
+          "values": null
+        }
+      ]
+    }
+  ]
 }
