@@ -1,8 +1,12 @@
 package app.ratbanana.patches.gaminghub.account
 
-import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLabels
 import app.morphe.patcher.patch.bytecodePatch
 import app.ratbanana.patches.gaminghub.shared.Constants.COMPATIBILITY_GAMING_HUB
+import app.ratbanana.patches.gaminghub.shared.Constants.EXTENSION_PACKAGE
+import app.ratbanana.patches.gaminghub.shared.requireFreeRegistersAtEntry
+
+private const val EXTENSION_CLASS = "$EXTENSION_PACKAGE/AccountOnboarding;"
 
 @Suppress("unused")
 val skipSignInPatch = bytecodePatch(
@@ -14,13 +18,26 @@ val skipSignInPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_GAMING_HUB)
 
+    extendWith("extensions/extension.mpe")
+
     execute {
-        IsSignInRequiredFingerprint.method.addInstructions(
-            0,
-            """
-                const/4 v0, 0x0
-                return v0
-            """,
-        )
+        GetOnboardingStatusFingerprint.method.apply {
+            requireFreeRegistersAtEntry(1)
+
+            // A suspend function may return its result directly instead of COROUTINE_SUSPENDED,
+            // so returning the status here completes the call without ever suspending.
+            addInstructionsWithLabels(
+                0,
+                """
+                    invoke-static { p1 }, $EXTENSION_CLASS->shouldSkipOnboarding(Landroid/content/Context;)Z
+                    move-result v0
+                    if-eqz v0, :run_onboarding
+                    sget-object v0, $ONBOARDING_STATUS_CLASS->NEED_TO_GO_HOME:$ONBOARDING_STATUS_CLASS
+                    return-object v0
+                    :run_onboarding
+                    nop
+                """,
+            )
+        }
     }
 }
