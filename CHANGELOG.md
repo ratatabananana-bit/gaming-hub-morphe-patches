@@ -1,3 +1,9 @@
+## [1.0.0-dev.8](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* match GOS result check on Collection.isEmpty ([bdef0fa](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/bdef0fa4966b751f56170c8efe700a04a5f3660d))
+
 ## [1.0.0-dev.7](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-10-24)
 
 ### ✨ New Features
