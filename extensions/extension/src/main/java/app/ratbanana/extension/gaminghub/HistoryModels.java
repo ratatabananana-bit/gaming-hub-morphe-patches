@@ -1,7 +1,7 @@
 package app.ratbanana.extension.gaminghub;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -23,6 +23,8 @@ final class HistoryModels {
     private static final String GAME_TYPE = MODEL_PACKAGE + "main.constant.GameType";
 
     static final String SUCCESS_RESULT_CODE = "000";
+    private static final int HTTP_OK = 200;
+    private static final String HTTP_OK_MESSAGE = "OK";
     private static final String INSTALLED_GAME_TYPE = "INSTALLATION";
 
     private final ClassLoader classLoader;
@@ -66,18 +68,49 @@ final class HistoryModels {
         throw new ClassNotFoundException("Unsupported response type " + responseType);
     }
 
-    /** {@code Response.success(body)}: the only static factory of the wrapper with one parameter. */
+    /**
+     * Creates Retrofit's {@code Response(rawResponse, body, errorBody)}. The app removed the
+     * {@code Response.success(body)} factory, so the wrapper is built from its constructor,
+     * with a minimal successful raw OkHttp response.
+     */
     private static Object successResponse(Class<?> wrapper, Object body) throws ReflectiveOperationException {
-        for (Method method : wrapper.getDeclaredMethods()) {
-            if (Modifier.isStatic(method.getModifiers())
-                    && method.getReturnType() == wrapper
-                    && method.getParameterTypes().length == 1
-                    && method.getParameterTypes()[0] == Object.class) {
-                method.setAccessible(true);
-                return method.invoke(null, body);
+        for (Constructor<?> constructor : wrapper.getDeclaredConstructors()) {
+            Class<?>[] parameters = constructor.getParameterTypes();
+            if (parameters.length == 3 && parameters[1] == Object.class) {
+                constructor.setAccessible(true);
+                return constructor.newInstance(successfulRawResponse(parameters[0]), body, null);
             }
         }
-        throw new NoSuchMethodException("No success factory in " + wrapper.getName());
+        throw new NoSuchMethodException("No response constructor in " + wrapper.getName());
+    }
+
+    /**
+     * A raw OkHttp response that only reports success. The app reads only the status code,
+     * message and success state of the raw response, so the request and headers stay empty.
+     */
+    private static Object successfulRawResponse(Class<?> rawResponseType) throws ReflectiveOperationException {
+        Object rawResponse = allocateWithoutConstructor(rawResponseType);
+        for (Field field : rawResponseType.getDeclaredFields()) {
+            if (Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
+            field.setAccessible(true);
+            if (field.getType() == int.class) {
+                field.setInt(rawResponse, HTTP_OK);
+            } else if (field.getType() == String.class) {
+                field.set(rawResponse, HTTP_OK_MESSAGE);
+            } else if (field.getType().isEnum() && field.getType().getSimpleName().equals("Protocol")) {
+                field.set(rawResponse, enumConstant(field.getType(), "HTTP_1_1"));
+            }
+        }
+        return rawResponse;
+    }
+
+    private static Object allocateWithoutConstructor(Class<?> type) throws ReflectiveOperationException {
+        Class<?> unsafeType = Class.forName("sun.misc.Unsafe");
+        Field theUnsafe = unsafeType.getDeclaredField("theUnsafe");
+        theUnsafe.setAccessible(true);
+        return unsafeType.getMethod("allocateInstance", Class.class).invoke(theUnsafe.get(null), type);
     }
 
     private Class<?> load(String className) throws ClassNotFoundException {
