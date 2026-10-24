@@ -1,3 +1,9 @@
+## [1.0.0-dev.10](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* replace GOS response before the helper's null check ([bee8ac0](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/bee8ac0e605eea13dabf79fc5b4ffd882eced645))
+
 ## [1.0.0-dev.9](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-10-24)
 
 ### 🐛 Bug Fixes
