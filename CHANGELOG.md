@@ -1,3 +1,9 @@
+## [1.0.0-dev.3](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* skip startup onboarding when no Samsung account is visible ([a2d0ac0](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/a2d0ac0144df536384c79743a347ac8d50d96172))
+
 ## [1.0.0-dev.2](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-10-24)
 
 ### ✨ New Features
