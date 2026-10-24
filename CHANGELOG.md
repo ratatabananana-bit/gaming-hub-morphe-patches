@@ -1,3 +1,9 @@
+## [1.0.0-dev.20](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.19...v1.0.0-dev.20) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* stretch the Library header to the app bar's minimum height ([7a50053](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/7a5005367ee9d74a467d8a04c57535060b2f81cb))
+
 ## [1.0.0-dev.19](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.18...v1.0.0-dev.19) (2026-10-24)
 
 ### 🐛 Bug Fixes
