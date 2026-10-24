@@ -1,3 +1,9 @@
+## [1.0.0-dev.4](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* resolve startup status by enum name instead of obfuscated field ([9c3decb](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/9c3decb1a06668a043a97df9e93a4b647f830002))
+
 ## [1.0.0-dev.3](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-10-24)
 
 ### 🐛 Bug Fixes
