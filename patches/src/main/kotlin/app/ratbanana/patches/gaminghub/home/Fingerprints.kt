@@ -8,6 +8,8 @@ internal const val SLOT_CLASS =
 
 internal const val SLOT_TITLE_GETTER = "getRcuTitle"
 
+internal const val SLOT_DISPLAY_TYPE_GETTER = "getDisplayType"
+
 /**
  * `CardInfoFactory.create(slot: Slot, categoryList: List): MainCardInfo?`
  *

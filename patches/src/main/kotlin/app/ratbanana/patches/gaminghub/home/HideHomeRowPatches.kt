@@ -13,10 +13,3 @@ val hideTopInstantPlaysPatch = hideHomeRowPatch(
     description = "Removes the \"Top instant plays\" row from the home screen.",
     defaultTitles = "Top instant plays",
 )
-
-@Suppress("unused")
-val hidePopularInstantPlaysCategoriesPatch = hideHomeRowPatch(
-    name = "Hide Popular Instant Plays categories",
-    description = "Removes the \"Popular Instant Plays categories\" row from the home screen.",
-    defaultTitles = "Popular Instant Plays categories",
-)

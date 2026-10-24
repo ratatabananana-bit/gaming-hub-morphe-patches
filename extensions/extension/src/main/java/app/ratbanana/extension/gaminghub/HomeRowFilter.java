@@ -52,6 +52,20 @@ public final class HomeRowFilter {
         return false;
     }
 
+    /** Display type of the categories row. Enum names survive obfuscation, fields do not. */
+    private static final String CATEGORY_LIST_DISPLAY_TYPE = "CATEGORY_LIST";
+
+    /**
+     * Injection point.
+     *
+     * @param displayType Display type enum constant of the row sent by the server. May be null.
+     * @return Whether the row is the categories row.
+     */
+    public static boolean isCategoryListRow(Object displayType) {
+        return displayType instanceof Enum
+                && CATEGORY_LIST_DISPLAY_TYPE.equals(((Enum<?>) displayType).name());
+    }
+
     /** Case and whitespace insensitive form, so cosmetic server changes do not break matching. */
     private static String normalize(String title) {
         return title.trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
