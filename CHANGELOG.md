@@ -1,3 +1,9 @@
+## [1.0.0-dev.13](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.12...v1.0.0-dev.13) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* make the signed-out profile button open the gamer profile ([3bea3e8](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/3bea3e8842d01c6078a155f488cde6ae9b78b347))
+
 ## [1.0.0-dev.12](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.11...v1.0.0-dev.12) (2026-10-24)
 
 ### ✨ New Features
