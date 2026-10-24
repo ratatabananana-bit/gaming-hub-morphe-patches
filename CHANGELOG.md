@@ -1,3 +1,9 @@
+## [1.0.0-dev.14](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.13...v1.0.0-dev.14) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* answer Instant Plays summary locally and throttle skipped retries ([1ecee10](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/1ecee1016f3650df844ae5efc5a6a0b28feb5cae))
+
 ## [1.0.0-dev.13](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.12...v1.0.0-dev.13) (2026-10-24)
 
 ### 🐛 Bug Fixes
