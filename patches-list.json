@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.5",
+  "version": "1.0.0-dev.6",
   "patches": [
     {
       "name": "Hide Events button",
@@ -68,17 +68,7 @@
           ]
         }
       ],
-      "options": [
-        {
-          "key": "rowTitles",
-          "title": "Row titles",
-          "description": "Title of the row to hide, as shown in the app. Separate alternative titles (for example other languages) with '|'.",
-          "required": true,
-          "type": "kotlin.String",
-          "default": "Popular Instant Plays categories",
-          "values": null
-        }
-      ]
+      "options": []
     },
     {
       "name": "Hide Recommended for you",

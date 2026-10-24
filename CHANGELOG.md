@@ -1,3 +1,9 @@
+## [1.0.0-dev.6](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* hide categories row by display type instead of title ([8eada8e](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/8eada8e463f94274aa6fba3ca5421c4262128594))
+
 ## [1.0.0-dev.5](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-10-24)
 
 ### ✨ New Features

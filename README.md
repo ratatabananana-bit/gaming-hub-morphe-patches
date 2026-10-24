@@ -15,7 +15,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.5](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/releases/tag/v1.0.0-dev.5)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;5 patches total
+> **[v1.0.0-dev.6](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/releases/tag/v1.0.0-dev.6)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;5 patches total
 <details open>
 <summary>📦 Gaming Hub&nbsp;&nbsp;•&nbsp;&nbsp;5 patches</summary>
 <br>
@@ -28,7 +28,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Hide Events button](#hide-events-button) | Removes the gift icon in the top right of the home screen that opens the Events page. |  |
-| [Hide Popular Instant Plays categories](#hide-popular-instant-plays-categories) | Removes the "Popular Instant Plays categories" row from the home screen. | • Row titles |
+| [Hide Popular Instant Plays categories](#hide-popular-instant-plays-categories) | Removes the "Popular Instant Plays categories" row from the home screen. |  |
 | [Hide Recommended for you](#hide-recommended-for-you) | Removes the "Recommended for you" row from the home screen. | • Row titles |
 | [Hide Top instant plays](#hide-top-instant-plays) | Removes the "Top instant plays" row from the home screen. | • Row titles |
 | [Skip mandatory sign-in](#skip-mandatory-sign-in) | Experimental. Opens Gaming Hub without the mandatory Samsung account sign-in. Required for any patched Gaming Hub, because Samsung account sign-in only works with the original Samsung signature. Features that need an account will not work. |  |
