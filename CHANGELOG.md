@@ -1,3 +1,9 @@
+## [1.0.0-dev.17](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.16...v1.0.0-dev.17) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* count older play time once per aggregated usage interval ([a4c1b5c](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/a4c1b5c780b623870a6ab2feb32ace0fc9398a6a))
+
 ## [1.0.0-dev.16](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.15...v1.0.0-dev.16) (2026-10-24)
 
 ### 🐛 Bug Fixes
