@@ -30,7 +30,11 @@ final class LocalPlayHistory {
     private static final String SUMMARY_PATH = "/gotcha/v1/dashboard/summary";
     private static final String PLAY_LOG_PATH = "/gotcha/v1/dashboard/my-play-log";
     private static final String RANK_PATH = "/gotcha/v1/dashboard/rank";
-    private static final String INSTANT_PLAYS_SUMMARY_PATH = "/gotcha/v1/users/playtime/summary/ip";
+    /**
+     * Today's play summary. The app adds the play time it records on the device itself, which
+     * needs a Samsung account to run, so the whole of today's play is answered here.
+     */
+    private static final String TODAY_SUMMARY_PATH = "/gotcha/v1/users/playtime/summary/ip";
 
     // Statistic types, as named by Gaming Hub.
     private static final String TOTAL_PLAY_TIME = "GAME_TOTAL_PLAYTIME";
@@ -62,10 +66,8 @@ final class LocalPlayHistory {
                     return playLog(context, stringArg(args, 0), responseType);
                 case RANK_PATH:
                     return rank(context, stringArg(args, 0), stringArg(args, 1), responseType);
-                case INSTANT_PLAYS_SUMMARY_PATH:
-                    // Instant Plays are streamed games tracked only by Samsung, so none are played here.
-                    return HistoryModels.response(responseType, HistoryModels.SUCCESS_RESULT_CODE,
-                            0, 0, "", Collections.emptyList(), Collections.emptyList());
+                case TODAY_SUMMARY_PATH:
+                    return todaySummary(context, responseType);
                 default:
                     return null;
             }
@@ -99,6 +101,26 @@ final class LocalPlayHistory {
         return HistoryModels.response(responseType,
                 "", HistoryModels.SUCCESS_RESULT_CODE, history.period.apiName,
                 userStats, Collections.emptyList(), rankings);
+    }
+
+    private static Object todaySummary(Context context, Type responseType) throws ReflectiveOperationException {
+        long now = System.currentTimeMillis();
+        long startOfToday = Period.DAY_7.boundaries(now)[Period.DAY_7.bucketCount - 1];
+        PlaySessions source = new PlaySessions(context, new HashSet<>(AndroidGameList.getInstalledGames(context)));
+
+        List<String> gamesPlayedToday = new ArrayList<>();
+        long playTimeToday = 0;
+        for (PlaySessions.Session session : source.sessions(startOfToday, now)) {
+            playTimeToday += session.durationMillis();
+            if (!gamesPlayedToday.contains(session.packageName)) {
+                gamesPlayedToday.add(session.packageName);
+            }
+        }
+
+        // Play time in milliseconds, as the app adds it to its own millisecond total.
+        return HistoryModels.response(responseType, HistoryModels.SUCCESS_RESULT_CODE,
+                gamesPlayedToday.size(), (int) Math.min(playTimeToday, Integer.MAX_VALUE), "",
+                gamesPlayedToday, Collections.emptyList());
     }
 
     private static Object playLog(Context context, String period, Type responseType)
@@ -208,7 +230,7 @@ final class LocalPlayHistory {
         final String apiName;
         private final int calendarField;
         private final int bucketLength;
-        private final int bucketCount;
+        final int bucketCount;
         private final String datePattern;
 
         Period(int calendarField, int bucketLength, int bucketCount, String datePattern) {
