@@ -1,10 +1,44 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.10",
+  "version": "1.0.0-dev.11",
   "patches": [
     {
       "name": "Hide Events button",
       "description": "Removes the gift icon in the top right of the home screen that opens the Events page.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "com.samsung.android.game.gamehome",
+          "name": "Gaming Hub",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#4A2A8C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "8.0.05.8",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Hide Instant Plays history",
+      "description": "Removes the Instant Plays history section from the top of My games.",
       "default": true,
       "category": null,
       "compatiblePackages": [

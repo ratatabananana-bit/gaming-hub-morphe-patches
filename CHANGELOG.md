@@ -1,3 +1,13 @@
+## [1.0.0-dev.11](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* resolve My games fingerprints inside the patch context ([6772462](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/67724624da404c56f465d77f0a7464cbfe9c3e3a))
+
+### ✨ New Features
+
+* hide Instant Plays history section in My games ([5aad1a3](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/5aad1a32a003c59d26d859738cda5a5bfdd4552e))
+
 ## [1.0.0-dev.10](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-10-24)
 
 ### 🐛 Bug Fixes
