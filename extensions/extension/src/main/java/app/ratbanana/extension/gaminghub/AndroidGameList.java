@@ -81,7 +81,7 @@ public final class AndroidGameList {
         }
     }
 
-    private static List<String> getInstalledGames(Context context) {
+    static List<String> getInstalledGames(Context context) {
         PackageManager packageManager = context.getPackageManager();
         String ownPackageName = context.getPackageName();
         List<String> games = new ArrayList<>();
