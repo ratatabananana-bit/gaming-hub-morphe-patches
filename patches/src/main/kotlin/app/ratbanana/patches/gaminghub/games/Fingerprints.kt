@@ -20,7 +20,7 @@ internal object GetGosPackageNamesFingerprint : Fingerprint(
     filters = listOf(
         string("get_package_names"),
         // resultList.isEmpty()
-        methodCall(definingClass = "Ljava/util/ArrayList;", name = "isEmpty"),
+        methodCall(definingClass = "Ljava/util/Collection;", name = "isEmpty"),
         opcode(Opcode.MOVE_RESULT, MatchAfterImmediately()),
         opcode(Opcode.IF_EQZ, MatchAfterImmediately()),
         string("retList is null"),
