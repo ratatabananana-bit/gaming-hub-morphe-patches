@@ -20,19 +20,19 @@ val hideInstantPlaysHistoryPatch = bytecodePatch(
     extendWith("extensions/extension.mpe")
 
     execute {
+        fun Fingerprint.setTopAreaVisibilityAfterTitle(extensionMethod: String) {
+            val setTitleMatch = instructionMatches.last()
+            val titleRegister = setTitleMatch.getInstruction<FiveRegisterInstruction>().registerC
+
+            method.addInstruction(
+                setTitleMatch.index + 1,
+                "invoke-static { v$titleRegister }, $EXTENSION_CLASS->$extensionMethod(Landroid/view/View;)V",
+            )
+        }
+
         // The same section shows either Instant Plays history or recently played games,
         // so it is hidden in the first mode and shown again in the second.
         BindInstantPlaysHistoryFingerprint.setTopAreaVisibilityAfterTitle("hide")
         BindRecentGamesFingerprint.setTopAreaVisibilityAfterTitle("show")
     }
-}
-
-private fun Fingerprint.setTopAreaVisibilityAfterTitle(extensionMethod: String) {
-    val setTitleMatch = instructionMatches.last()
-    val titleRegister = setTitleMatch.getInstruction<FiveRegisterInstruction>().registerC
-
-    method.addInstruction(
-        setTitleMatch.index + 1,
-        "invoke-static { v$titleRegister }, $EXTENSION_CLASS->$extensionMethod(Landroid/view/View;)V",
-    )
 }
