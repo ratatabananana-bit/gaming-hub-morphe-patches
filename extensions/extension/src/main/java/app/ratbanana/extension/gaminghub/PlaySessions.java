@@ -24,6 +24,9 @@ final class PlaySessions {
     /** A pause followed by a resume of the same game within this time is not a session end. */
     private static final long PAUSE_GRACE_MILLIS = 2_000L;
 
+    /** How far before a range to look for the start of a session that runs into it. */
+    private static final long SESSION_LOOKBACK_MILLIS = 12 * 60 * 60_000L;
+
     private static final int SCREEN_NON_INTERACTIVE = 16;
     private static final int KEYGUARD_SHOWN = 17;
     private static final int DEVICE_SHUTDOWN = 26;
@@ -59,7 +62,8 @@ final class PlaySessions {
         }
 
         List<Session> raw = new ArrayList<>();
-        UsageEvents events = usageStats.queryEvents(rangeStart, rangeEnd);
+        // A session that started before the range has its start event before the range too.
+        UsageEvents events = usageStats.queryEvents(rangeStart - SESSION_LOOKBACK_MILLIS, rangeEnd);
         if (events == null) {
             return raw;
         }
