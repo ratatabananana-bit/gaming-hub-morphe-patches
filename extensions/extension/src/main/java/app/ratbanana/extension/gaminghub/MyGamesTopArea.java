@@ -19,6 +19,9 @@ public final class MyGamesTopArea {
      */
     private static final String EXPANDED_TITLE_AREA_ID = "collapsing_appbar_title_layout_parent";
 
+    private static final String LIBRARY_HEADER_ID = "library_header_container";
+    private static final String COLLAPSING_APP_BAR_ID = "collapsing_toolbar_layout";
+
     /** How many parents up to search for the collapsing app bar. */
     private static final int MAX_ANCESTOR_DEPTH = 6;
 
@@ -59,6 +62,47 @@ public final class MyGamesTopArea {
         if (expandedTitleArea != null) {
             expandedTitleArea.setVisibility(visibility == View.GONE ? View.GONE : View.VISIBLE);
         }
+
+        if (visibility == View.GONE) {
+            fillAppBarWithLibraryHeader((View) section);
+        }
+    }
+
+    /**
+     * The collapsing app bar keeps a minimum height that the Library header alone does not reach.
+     * Stretch the header to the app bar height, so it joins the game list without an empty strip.
+     */
+    private static void fillAppBarWithLibraryHeader(View section) {
+        View header = findInAncestors(section, LIBRARY_HEADER_ID);
+        View appBar = findInAncestors(section, COLLAPSING_APP_BAR_ID);
+        if (header == null || appBar == null) {
+            return;
+        }
+
+        appBar.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right, int bottom,
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                int headerBottomInAppBar = bottomRelativeTo(header, appBar);
+                int gap = appBar.getHeight() - headerBottomInAppBar;
+                if (gap > 0 && header.getVisibility() == View.VISIBLE) {
+                    header.setMinimumHeight(header.getHeight() + gap);
+                    header.requestLayout();
+                }
+                view.removeOnLayoutChangeListener(this);
+            }
+        });
+        appBar.requestLayout();
+    }
+
+    private static int bottomRelativeTo(View view, View ancestor) {
+        int bottom = view.getBottom();
+        ViewParent parent = view.getParent();
+        while (parent instanceof View && parent != ancestor) {
+            bottom += ((View) parent).getTop();
+            parent = parent.getParent();
+        }
+        return bottom;
     }
 
     /** Finds a view by id name in the closest ancestor that contains it. */
