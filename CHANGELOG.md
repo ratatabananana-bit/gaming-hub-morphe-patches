@@ -1,3 +1,9 @@
+## [1.0.0-dev.19](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.18...v1.0.0-dev.19) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* remove the empty strip under the Library header ([9091e1b](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/9091e1b8362532e59ce5786d3cffc739d245f89f))
+
 ## [1.0.0-dev.18](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.17...v1.0.0-dev.18) (2026-10-24)
 
 ### 🐛 Bug Fixes
