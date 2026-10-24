@@ -11,6 +11,7 @@ import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.Instruction
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.TwoRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.TypeReference
 
 private const val SERVICE_EXTENSION_CLASS = "$EXTENSION_PACKAGE/LocalGamingHubService;"
@@ -63,6 +64,17 @@ val localPlayHistoryPatch = bytecodePatch(
             wrappedServices++
         }
         if (wrappedServices == 0) throw PatchException("API service creation not found in $NETWORK_MODULE_CLASS")
+
+        // Let the signed-out profile button open the gamer profile.
+        InitProfileMenuFingerprint.let { fingerprint ->
+            val buttonMatch = fingerprint.instructionMatches.first()
+            val buttonRegister = buttonMatch.getInstruction<TwoRegisterInstruction>().registerA
+
+            fingerprint.method.addInstructions(
+                buttonMatch.index + 1,
+                "invoke-static { v$buttonRegister }, $PROFILE_EXTENSION_CLASS->enableSignedOutProfileButton(Landroid/view/View;)V",
+            )
+        }
 
         // Open the gamer profile instead of the sign-in prompt that a re-signed APK can never pass.
         ProfileClickFingerprint.let { fingerprint ->
