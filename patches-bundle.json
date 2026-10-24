@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-24T07:05:44",
-  "description": "## [1.0.0-dev.17](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.16...v1.0.0-dev.17) (2026-10-24)\n\n### 🐛 Bug Fixes\n\n* count older play time once per aggregated usage interval ([a4c1b5c](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/a4c1b5c780b623870a6ab2feb32ace0fc9398a6a))",
-  "download_url": "https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/releases/download/v1.0.0-dev.17/patches-1.0.0-dev.17.mpp",
+  "created_at": "2026-10-24T07:09:53",
+  "description": "## [1.0.0-dev.18](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.17...v1.0.0-dev.18) (2026-10-24)\n\n### 🐛 Bug Fixes\n\n* include sessions that started before the requested range ([96f3129](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/96f31294bf5e052bdc5747da8615285be8db855f))",
+  "download_url": "https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/releases/download/v1.0.0-dev.18/patches-1.0.0-dev.18.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.17"
+  "version": "1.0.0-dev.18"
 }

@@ -1,3 +1,9 @@
+## [1.0.0-dev.18](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.17...v1.0.0-dev.18) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* include sessions that started before the requested range ([96f3129](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/96f31294bf5e052bdc5747da8615285be8db855f))
+
 ## [1.0.0-dev.17](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.16...v1.0.0-dev.17) (2026-10-24)
 
 ### 🐛 Bug Fixes
