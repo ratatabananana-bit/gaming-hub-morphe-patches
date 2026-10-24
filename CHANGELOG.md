@@ -1,3 +1,9 @@
+## [1.0.0-dev.7](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-10-24)
+
+### ✨ New Features
+
+* restore local features without a Samsung account ([d208f5a](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/d208f5a763639940af4345b76659ab7934852a2e))
+
 ## [1.0.0-dev.6](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-10-24)
 
 ### 🐛 Bug Fixes
