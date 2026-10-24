@@ -1,12 +1,10 @@
 package app.ratbanana.patches.gaminghub.games
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
-import app.morphe.patcher.extensions.InstructionExtensions.instructions
-import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.bytecodePatch
 import app.ratbanana.patches.gaminghub.shared.Constants.COMPATIBILITY_GAMING_HUB
 import app.ratbanana.patches.gaminghub.shared.Constants.EXTENSION_PACKAGE
-import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 
 private const val EXTENSION_CLASS = "$EXTENSION_PACKAGE/AndroidGameList;"
@@ -24,16 +22,16 @@ val androidGameListPatch = bytecodePatch(
     extendWith("extensions/extension.mpe")
 
     execute {
-        GosRequestFingerprint.method.apply {
-            val returnIndex = instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
-            if (returnIndex < 0) throw PatchException("GOS request helper has no return")
-            val responseRegister = instructions[returnIndex].let { it as OneRegisterInstruction }.registerA
+        GosRequestFingerprint.let { fingerprint ->
+            val gosCall = fingerprint.instructionMatches[1].getInstruction<FiveRegisterInstruction>()
+            val responseMatch = fingerprint.instructionMatches[2]
+            val responseRegister = responseMatch.getInstruction<OneRegisterInstruction>().registerA
 
-            // The command and parameter registers (p1, p2) still hold the request at the return.
-            addInstructions(
-                returnIndex,
+            // Right after the GOS call the command and JSON parameter registers are still intact.
+            fingerprint.method.addInstructions(
+                responseMatch.index + 1,
                 """
-                    invoke-static { p1, p2, v$responseRegister }, $EXTENSION_CLASS->replaceGosResponse(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+                    invoke-static { v${gosCall.registerD}, v${gosCall.registerE}, v$responseRegister }, $EXTENSION_CLASS->replaceGosResponse(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
                     move-result-object v$responseRegister
                 """,
             )
