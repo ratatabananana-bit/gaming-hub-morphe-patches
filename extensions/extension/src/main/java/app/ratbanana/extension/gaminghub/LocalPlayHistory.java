@@ -30,6 +30,7 @@ final class LocalPlayHistory {
     private static final String SUMMARY_PATH = "/gotcha/v1/dashboard/summary";
     private static final String PLAY_LOG_PATH = "/gotcha/v1/dashboard/my-play-log";
     private static final String RANK_PATH = "/gotcha/v1/dashboard/rank";
+    private static final String INSTANT_PLAYS_SUMMARY_PATH = "/gotcha/v1/users/playtime/summary/ip";
 
     // Statistic types, as named by Gaming Hub.
     private static final String TOTAL_PLAY_TIME = "GAME_TOTAL_PLAYTIME";
@@ -61,6 +62,10 @@ final class LocalPlayHistory {
                     return playLog(context, stringArg(args, 0), responseType);
                 case RANK_PATH:
                     return rank(context, stringArg(args, 0), stringArg(args, 1), responseType);
+                case INSTANT_PLAYS_SUMMARY_PATH:
+                    // Instant Plays are streamed games tracked only by Samsung, so none are played here.
+                    return HistoryModels.response(responseType, HistoryModels.SUCCESS_RESULT_CODE,
+                            0, 0, "", Collections.emptyList(), Collections.emptyList());
                 default:
                     return null;
             }

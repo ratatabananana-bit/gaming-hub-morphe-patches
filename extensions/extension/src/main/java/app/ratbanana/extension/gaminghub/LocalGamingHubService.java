@@ -1,6 +1,8 @@
 package app.ratbanana.extension.gaminghub;
 
 import android.content.Context;
+import android.os.Looper;
+import android.os.SystemClock;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -10,6 +12,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Wraps the Gaming Hub server API so that account-only endpoints never reach Samsung's servers
@@ -24,6 +28,11 @@ public final class LocalGamingHubService implements InvocationHandler {
 
     /** Path prefix of the endpoints that require a signed-in Samsung account. */
     private static final String ACCOUNT_API_PREFIX = "/gotcha/";
+
+    private static final long RETRY_THROTTLE_MILLIS = 2_000L;
+
+    /** Last time each endpoint was skipped, to throttle immediate retries. */
+    private static final Map<String, Long> LAST_SKIP_TIMES = new HashMap<>();
 
     private final Object remoteService;
 
@@ -70,7 +79,27 @@ public final class LocalGamingHubService implements InvocationHandler {
             return localResponse;
         }
 
+        throttleRepeatedSkip(path);
         throw new AccountUnavailableException(path);
+    }
+
+    /**
+     * Some callers retry a failed request immediately. Without network latency in between, that
+     * would spin, so a request skipped again right after the previous skip waits first.
+     */
+    private static void throttleRepeatedSkip(String path) {
+        long now = SystemClock.elapsedRealtime();
+        Long previous;
+        synchronized (LAST_SKIP_TIMES) {
+            previous = LAST_SKIP_TIMES.put(path, now);
+        }
+        boolean onMainThread = Looper.myLooper() == Looper.getMainLooper();
+        if (previous != null && now - previous < RETRY_THROTTLE_MILLIS && !onMainThread) {
+            SystemClock.sleep(RETRY_THROTTLE_MILLIS);
+            synchronized (LAST_SKIP_TIMES) {
+                LAST_SKIP_TIMES.put(path, SystemClock.elapsedRealtime());
+            }
+        }
     }
 
     private Object invokeRemote(Method method, Object[] args) throws Throwable {
