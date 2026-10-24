@@ -1,3 +1,9 @@
+## [1.0.0-dev.16](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.15...v1.0.0-dev.16) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* fill today's play summary from usage data ([57a76dd](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/57a76dd14bac833b3f1de220fdbb3846501cf7b8))
+
 ## [1.0.0-dev.15](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.14...v1.0.0-dev.15) (2026-10-24)
 
 ### 🐛 Bug Fixes
