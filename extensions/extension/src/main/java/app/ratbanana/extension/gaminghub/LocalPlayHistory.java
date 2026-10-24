@@ -1,5 +1,6 @@
 package app.ratbanana.extension.gaminghub;
 
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -222,23 +223,26 @@ final class LocalPlayHistory {
 
     /** The periods Gaming Hub offers, mapped to time buckets in local time. */
     enum Period {
-        DAY_7(Calendar.DAY_OF_YEAR, 1, 7, "yyyy.MM.dd"),
-        WEEK_4(Calendar.DAY_OF_YEAR, 7, 4, "yyyy.MM.dd"),
-        MONTH_6(Calendar.MONTH, 1, 6, "yyyy.MM"),
-        ALL(Calendar.MONTH, 1, 12, "yyyy.MM");
+        DAY_7(Calendar.DAY_OF_YEAR, 1, 7, "yyyy.MM.dd", UsageStatsManager.INTERVAL_DAILY),
+        WEEK_4(Calendar.DAY_OF_YEAR, 7, 4, "yyyy.MM.dd", UsageStatsManager.INTERVAL_WEEKLY),
+        MONTH_6(Calendar.MONTH, 1, 6, "yyyy.MM", UsageStatsManager.INTERVAL_MONTHLY),
+        ALL(Calendar.MONTH, 1, 12, "yyyy.MM", UsageStatsManager.INTERVAL_MONTHLY);
 
         final String apiName;
         private final int calendarField;
         private final int bucketLength;
         final int bucketCount;
         private final String datePattern;
+        /** Android's aggregated usage interval closest to one bucket of this period. */
+        final int usageStatsInterval;
 
-        Period(int calendarField, int bucketLength, int bucketCount, String datePattern) {
+        Period(int calendarField, int bucketLength, int bucketCount, String datePattern, int usageStatsInterval) {
             this.apiName = name();
             this.calendarField = calendarField;
             this.bucketLength = bucketLength;
             this.bucketCount = bucketCount;
             this.datePattern = datePattern;
+            this.usageStatsInterval = usageStatsInterval;
         }
 
         static Period of(String name) {
@@ -311,8 +315,12 @@ final class LocalPlayHistory {
             History history = new History(period, source.sessions(start, now));
 
             // Individual events are kept only for a limited time; older buckets use the
-            // aggregated statistics Android keeps for months.
+            // aggregated statistics Android keeps for months. Each aggregated interval is counted
+            // once, in the bucket holding its midpoint, and only if it ended before the events
+            // start, so no play time is counted twice.
             long eventsCoverage = source.eventsCoverageStart(start, now);
+            List<PlaySessions.UsageTotal> olderTotals =
+                    source.aggregatedPlayTime(period.usageStatsInterval, start, eventsCoverage);
 
             for (int i = 0; i < boundaries.length - 1; i++) {
                 Bucket bucket = new Bucket(boundaries[i]);
@@ -334,9 +342,11 @@ final class LocalPlayHistory {
                     }
                     bucket.topPlayHour = maxIndex(playByHour);
                 } else {
-                    for (Map.Entry<String, Long> entry : source.aggregatedPlayTime(bucket.start, bucketEnd).entrySet()) {
-                        bucket.playTime += entry.getValue();
-                        history.addPlayTime(entry.getKey(), entry.getValue());
+                    for (PlaySessions.UsageTotal total : olderTotals) {
+                        if (total.midpoint() >= bucket.start && total.midpoint() < bucketEnd) {
+                            bucket.playTime += total.playTime;
+                            history.addPlayTime(total.packageName, total.playTime);
+                        }
                     }
                 }
                 history.buckets.add(bucket);

@@ -112,24 +112,50 @@ final class PlaySessions {
         return merge(raw, rangeStart, rangeEnd);
     }
 
+    /** Foreground time of one game in one of Android's aggregated usage intervals. */
+    static final class UsageTotal {
+        final String packageName;
+        final long intervalStart;
+        final long intervalEnd;
+        final long playTime;
+
+        UsageTotal(String packageName, long intervalStart, long intervalEnd, long playTime) {
+            this.packageName = packageName;
+            this.intervalStart = intervalStart;
+            this.intervalEnd = intervalEnd;
+            this.playTime = playTime;
+        }
+
+        long midpoint() {
+            return intervalStart + (intervalEnd - intervalStart) / 2;
+        }
+    }
+
     /**
-     * Total foreground time per game from Android's aggregated usage statistics, which are kept
-     * far longer than individual events. Used for ranges that events no longer cover.
+     * Foreground time per game and interval from Android's aggregated usage statistics, which are
+     * kept far longer than individual events. Used for the time before events start.
+     *
+     * @param interval  One of the {@link UsageStatsManager} interval types.
+     * @param intervalsEndBy Only intervals that ended by this time are returned, so that they do not
+     *                  overlap the time covered by individual events.
      */
-    Map<String, Long> aggregatedPlayTime(long rangeStart, long rangeEnd) {
-        Map<String, Long> totals = new HashMap<>();
-        if (usageStats == null || rangeEnd <= rangeStart) {
+    List<UsageTotal> aggregatedPlayTime(int interval, long rangeStart, long intervalsEndBy) {
+        List<UsageTotal> totals = new ArrayList<>();
+        if (usageStats == null || intervalsEndBy <= rangeStart) {
             return totals;
         }
 
-        Map<String, UsageStats> stats = usageStats.queryAndAggregateUsageStats(rangeStart, rangeEnd);
+        List<UsageStats> stats = usageStats.queryUsageStats(interval, rangeStart, intervalsEndBy);
         if (stats == null) {
             return totals;
         }
-        for (Map.Entry<String, UsageStats> entry : stats.entrySet()) {
-            long time = entry.getValue().getTotalTimeInForeground();
-            if (games.contains(entry.getKey()) && time > 0) {
-                totals.put(entry.getKey(), time);
+        for (UsageStats stat : stats) {
+            long time = stat.getTotalTimeInForeground();
+            if (time > 0
+                    && games.contains(stat.getPackageName())
+                    && stat.getFirstTimeStamp() >= rangeStart
+                    && stat.getLastTimeStamp() <= intervalsEndBy) {
+                totals.add(new UsageTotal(stat.getPackageName(), stat.getFirstTimeStamp(), stat.getLastTimeStamp(), time));
             }
         }
         return totals;
