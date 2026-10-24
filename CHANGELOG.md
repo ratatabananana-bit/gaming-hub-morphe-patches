@@ -1,3 +1,9 @@
+## [1.0.0-dev.9](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* answer GOS game list at the shared request helper ([fc4a034](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/fc4a03472496ba1b12818449dff3689b1ac69aeb))
+
 ## [1.0.0-dev.8](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-10-24)
 
 ### 🐛 Bug Fixes
