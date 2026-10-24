@@ -1,3 +1,9 @@
+## [1.0.0-dev.15](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.14...v1.0.0-dev.15) (2026-10-24)
+
+### 🐛 Bug Fixes
+
+* build Retrofit responses without the removed success factory ([10b90e5](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/10b90e5329c27109ddcf0dd6000cd66a1981a9e5))
+
 ## [1.0.0-dev.14](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.13...v1.0.0-dev.14) (2026-10-24)
 
 ### 🐛 Bug Fixes
