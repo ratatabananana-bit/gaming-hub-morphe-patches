@@ -1,10 +1,12 @@
 package app.ratbanana.patches.gaminghub.games
 
-import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLabels
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
+import app.morphe.patcher.extensions.InstructionExtensions.instructions
+import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.bytecodePatch
 import app.ratbanana.patches.gaminghub.shared.Constants.COMPATIBILITY_GAMING_HUB
 import app.ratbanana.patches.gaminghub.shared.Constants.EXTENSION_PACKAGE
-import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
+import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 
 private const val EXTENSION_CLASS = "$EXTENSION_PACKAGE/AndroidGameList;"
@@ -22,22 +24,17 @@ val androidGameListPatch = bytecodePatch(
     extendWith("extensions/extension.mpe")
 
     execute {
-        GetGosPackageNamesFingerprint.let { fingerprint ->
-            val matches = fingerprint.instructionMatches
-            val resultListRegister = matches[1].getInstruction<FiveRegisterInstruction>().registerC
-            val isEmptyRegister = matches[2].getInstruction<OneRegisterInstruction>().registerA
+        GosRequestFingerprint.method.apply {
+            val returnIndex = instructions.indexOfLast { it.opcode == Opcode.RETURN_OBJECT }
+            if (returnIndex < 0) throw PatchException("GOS request helper has no return")
+            val responseRegister = instructions[returnIndex].let { it as OneRegisterInstruction }.registerA
 
-            // Only reached when GOS returned no games. The list is still empty here,
-            // and the isEmpty() result register is free until the original code reuses it.
-            fingerprint.method.addInstructionsWithLabels(
-                matches[3].index + 1,
+            // The command and parameter registers (p1, p2) still hold the request at the return.
+            addInstructions(
+                returnIndex,
                 """
-                    invoke-static { v$resultListRegister }, $EXTENSION_CLASS->addInstalledGames(Ljava/util/List;)Z
-                    move-result v$isEmptyRegister
-                    if-eqz v$isEmptyRegister, :gos_failed
-                    return-object v$resultListRegister
-                    :gos_failed
-                    nop
+                    invoke-static { p1, p2, v$responseRegister }, $EXTENSION_CLASS->replaceGosResponse(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+                    move-result-object v$responseRegister
                 """,
             )
         }
