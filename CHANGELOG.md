@@ -1,3 +1,9 @@
+## [1.0.0-dev.5](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-10-24)
+
+### ✨ New Features
+
+* hide Popular Instant Plays categories row ([81c1222](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/81c12220b14e6006e9d3433861ec4c0fd2683071))
+
 ## [1.0.0-dev.4](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-10-24)
 
 ### 🐛 Bug Fixes
