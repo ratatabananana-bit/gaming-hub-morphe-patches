@@ -22,6 +22,9 @@ public final class MyGamesTopArea {
     private static final String LIBRARY_HEADER_ID = "library_header_container";
     private static final String COLLAPSING_APP_BAR_ID = "collapsing_toolbar_layout";
 
+    /** Marks an app bar that already keeps the Library header filled. Any stable unique key works. */
+    private static final int LIBRARY_HEADER_FILL_TAG_KEY = 0x7f5a_0001;
+
     /** How many parents up to search for the collapsing app bar. */
     private static final int MAX_ANCESTOR_DEPTH = 6;
 
@@ -79,17 +82,26 @@ public final class MyGamesTopArea {
             return;
         }
 
-        appBar.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View view, int left, int top, int right, int bottom,
-                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                int headerBottomInAppBar = bottomRelativeTo(header, appBar);
-                int gap = appBar.getHeight() - headerBottomInAppBar;
-                if (gap > 0 && header.getVisibility() == View.VISIBLE) {
-                    header.setMinimumHeight(header.getHeight() + gap);
-                    header.requestLayout();
-                }
-                view.removeOnLayoutChangeListener(this);
+        if (appBar.getTag(LIBRARY_HEADER_FILL_TAG_KEY) != null) {
+            return;
+        }
+        appBar.setTag(LIBRARY_HEADER_FILL_TAG_KEY, Boolean.TRUE);
+
+        // Layout settles over several passes, so keep checking; once filled, the gap is zero
+        // and nothing changes anymore.
+        appBar.addOnLayoutChangeListener((view, left, top, right, bottom,
+                                          oldLeft, oldTop, oldRight, oldBottom) -> {
+            if (header.getVisibility() != View.VISIBLE || header.getHeight() == 0) {
+                return;
+            }
+            int gap = view.getHeight() - bottomRelativeTo(header, view);
+            if (gap > 0) {
+                int filledHeight = header.getHeight() + gap;
+                header.post(() -> {
+                    ViewGroup.LayoutParams params = header.getLayoutParams();
+                    params.height = filledHeight;
+                    header.setLayoutParams(params);
+                });
             }
         });
         appBar.requestLayout();
