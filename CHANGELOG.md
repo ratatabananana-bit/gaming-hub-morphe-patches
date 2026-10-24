@@ -1,3 +1,9 @@
+## [1.0.0-dev.12](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.11...v1.0.0-dev.12) (2026-10-24)
+
+### ✨ New Features
+
+* compute play history on the device ([323fb47](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/commit/323fb474bd46713560690e3bd08ffc4f40ad87ee))
+
 ## [1.0.0-dev.11](https://github.com/ratatabananana-bit/gaming-hub-morphe-patches/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-10-24)
 
 ### 🐛 Bug Fixes
